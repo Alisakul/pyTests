@@ -4,7 +4,7 @@ from pages.main_page import MainPage
 from pages.sofa_page import SofaPage
 
 
-def test_by_product():
+def test_buy_product():
     options = webdriver.ChromeOptions()
     options.add_argument("--guest")
     driver = webdriver.Chrome(options=options)
