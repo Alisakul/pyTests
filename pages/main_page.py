@@ -12,29 +12,35 @@ class MainPage(Base):
         super().__init__(driver)
 
     # LOCATORS
-    main_logo_css = ".LogotypeRedesign_logo___F_Dq.LogotypeRedesign_miniLogoOnMobile__wE_x_"
-    sofa_section_xp = "//span[contains(text(), 'Products')]"
+    main_logo_css = "#pic1"
+    empty_basket_css = ".header-basket__empty"
+    black_ceylon_tea_css = ".main_catalog_section-s.img-s-1"
 
     # GETTERS
     def get_main_logo(self):
         return WebDriverWait(self.driver, 15).until(conditions.visibility_of_element_located((By.CSS_SELECTOR,
                                                                                               self.main_logo_css)))
 
-    def get_sofa_section(self):
-        return WebDriverWait(self.driver, 15).until(conditions.presence_of_element_located((By.XPATH,
-                                                                                            self.sofa_section_xp)))
+    def get_empty_basket(self):
+        return WebDriverWait(self.driver, 15).until(conditions.visibility_of_element_located((By.CSS_SELECTOR,
+                                                                                              self.empty_basket_css)))
+
+    def get_black_ceylon_tea(self):
+        return WebDriverWait(self.driver, 15).until(conditions.presence_of_element_located((By.CSS_SELECTOR,
+                                                                                            self.black_ceylon_tea_css)))
 
     # ACTIONS
-    def check_logo(self):
+    def check_main_page(self):
         self.get_main_logo()
-        print("Отображается логотип")
+        self.get_empty_basket()
+        print("Отображается логотип, корзина пустая")
 
-    def click_go_to_sofa(self):
-        self.get_sofa_section().click()
-        print("Нажата кнопка раздела 'Диваны и кресла'")
+    def click_go_to_black_ceylon(self):
+        self.get_black_ceylon_tea().click()
+        print("Нажата кнопка раздела 'Чёрный цейлонский чай'")
 
     # METHODS
-    def go_to_sofa(self):
-        """Переход в раздел 'Диваны и кресла'"""
-        self.check_logo()
-        self.click_go_to_sofa()
+    def go_to_black_ceylon(self):
+        """Переход в раздел 'Чёрный цейлонский чай'"""
+        self.check_main_page()
+        self.click_go_to_black_ceylon()
