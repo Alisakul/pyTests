@@ -19,7 +19,7 @@ class BlackCeylonPage(Base):
     link_css = "._tab-link.-current a[href='/catalog/tseylonskiy/chernyiy/']"
     section_name_css = "div[id='tab-1'] p[class='mobile-section-title']"
     parts_css = ".js-open-catalog-menu"
-    cinnamon_filter_css = "a[href='/catalog/tseylonskiy/chernyiy/paketirovannyiy/aromatizirovannyiy/koritsa/']"
+    maple_filter_css = "//a[contains(text(),'Канадский клен (6)')]"
     buy_button_xp = "//a[contains(text(),'купить')]"
 
     # GETTERS
@@ -34,29 +34,29 @@ class BlackCeylonPage(Base):
     def get_link(self):
         return self.driver.find_elements(By.CSS_SELECTOR, self.link_css)
 
-    def get_cinnamon_filter(self):
-        return self.driver.find_element(By.CSS_SELECTOR, self.cinnamon_filter_css)
+    def get_maple_filter(self):
+        return self.driver.find_element(By.XPATH, self.maple_filter_css)
 
-    def get_parts_css(self):
+    def get_parts(self):
         return self.driver.find_elements(By.CSS_SELECTOR, self.parts_css)
 
     # ACTIONS
-    def click_cinnamon_filter(self):
-        self.get_cinnamon_filter().click()
-        print("Нажат фильтр Корица")
+    def click_maple_filter(self):
+        self.get_maple_filter().click()
+        print("Нажат фильтр Канадский клен")
 
     # METHODS
     def check_black_ceylon_section(self):
         base = Base(self.driver)
         base.assert_url(self.url)
         name = self.get_section_name().text
-        self.get_current_section().is_displayed()
+        assert self.get_current_section().is_displayed(), "не отображается текущая секция"
         self.get_link()
-        parts = self.get_parts_css()
+        parts = self.get_parts()
         texts = [el.text for el in parts]
-        assert texts == self.categories
+        assert texts == self.categories, "Разделы на странице не соответствуют ожидаемому: " + ", ".join(texts)
         print("Выбран корректный раздел: " + name)
 
-    def check_and_go_to_cinnamon_cart(self):
+    def check_and_go_to_maple_cart(self):
         self.check_black_ceylon_section()
-        self.click_cinnamon_filter()
+        self.click_maple_filter()

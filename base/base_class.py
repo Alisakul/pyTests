@@ -1,7 +1,8 @@
 import datetime
+import os
 
 
-class Base():
+class Base:
     def __init__(self, driver):
         self.driver = driver
 
@@ -13,18 +14,22 @@ class Base():
     def assert_text(self, actual_text_locator, expected_test):
         """Проверка соответствия текста локатора"""
         value_text = actual_text_locator.text()
-        assert value_text == expected_test
+        assert value_text == expected_test, "текст не соответствует ожидаемому: " + actual_text_locator
         print("Значение текста соответствует ожидаемому: " + value_text)
 
     def assert_url(self, expected_url):
         """Проверка корректности URL"""
         get_url = self.driver.current_url
-        assert expected_url == get_url
-        print("Корректный URL: " + get_url)
+        assert expected_url == get_url, "URL не соответствует ожидаемому: " + get_url
+        print("URL соответствует ожидаемому: " + get_url)
 
     def get_screenshot(self):
         """Создание скриншота"""
         now_date = datetime.datetime.now().strftime("%Y.%m.%d-%H.%M.%S")
         name_screenshot = "screen_" + now_date + ".png"
-        self.driver.save_screenshot(f"screen/{name_screenshot}")
-        print("Скриншот сохранён: " + name_screenshot)
+        path = os.path.expanduser("screen/")
+        os.makedirs(path, exist_ok=True)
+        full_path = os.path.join(path, name_screenshot)
+        success = self.driver.save_screenshot(full_path)
+        print("Сохранение успешно:", success)
+        print("Путь скриншота:", full_path)
