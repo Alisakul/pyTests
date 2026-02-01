@@ -15,7 +15,6 @@ class BasketPage(Base):
 
     # LOCATORS
     next_button_xp = "(//a[@class='pull-right btn btn-default btn-md'][contains(text(),'Далее')])[1]"
-    current_region_css = "span[title='Показать на карте']"
     delivery_checkbox_css = "#ID_DELIVERY_ID_6"
     select_delivery_css = "select[name='DELIVERY_EXTRA_SERVICES[6][2]']"
     card_payment_css = "#ID_PAY_SYSTEM_ID_24"
@@ -23,15 +22,13 @@ class BasketPage(Base):
     email_input_css = "#soa-property-35"
     phone_input_css = "#soa-property-36"
     comments_input_css = "#orderDescription"
+    region_input_xp = "(//input[@placeholder='Введите название ...'])[2]"
+    moscow_region_css = ".dropdown-item.bx-ui-sls-variant.bx-ui-sls-variant-active"
 
     # GETTERS
     def get_next_button(self):
         return WebDriverWait(self.driver, 30).until(conditions.presence_of_element_located((By.XPATH,
                                                                                             self.next_button_xp)))
-
-    def get_current_region(self):
-        return WebDriverWait(self.driver, 30).until(conditions.presence_of_element_located((By.CSS_SELECTOR,
-                                                                                            self.current_region_css)))
 
     def get_delivery_checkbox(self):
         return (WebDriverWait(self.driver, 30).
@@ -61,14 +58,18 @@ class BasketPage(Base):
         return WebDriverWait(self.driver, 30).until(conditions.presence_of_element_located((By.CSS_SELECTOR,
                                                                                             self.comments_input_css)))
 
+    def get_region_input(self):
+        return WebDriverWait(self.driver, 30).until(conditions.presence_of_element_located((By.XPATH,
+                                                                                            self.region_input_xp)))
+
+    def get_moscow_region(self):
+        return WebDriverWait(self.driver, 30).until(conditions.presence_of_element_located((By.CSS_SELECTOR,
+                                                                                            self.moscow_region_css)))
+
     # ACTIONS
     def click_next_button(self):
         self.get_next_button().click()
         print("Нажата кнопка Далее")
-
-    def click_current_region(self):
-        self.get_current_region().click()
-        print("Выбран текущий регион")
 
     def set_checkbox_delivery(self):
         self.get_delivery_checkbox().click()
@@ -98,6 +99,11 @@ class BasketPage(Base):
         self.get_comments_input().send_keys(comments)
         print("Введен комментарий: " + comments)
 
+    def select_moscow_region(self):
+        self.get_region_input().send_keys("Москва")
+        self.get_moscow_region().click()
+        print("Выбран регион: Москва")
+
     # METHODS
     def check_page(self):
         base = Base(self.driver)
@@ -106,7 +112,7 @@ class BasketPage(Base):
     def set_all_values_for_order(self, option, name, email, phone, comments):
         self.check_page()
         self.click_next_button()
-        self.click_current_region()
+        self.select_moscow_region()
         self.click_next_button()
         self.set_checkbox_delivery()
         self.select_delivery_company(option)
