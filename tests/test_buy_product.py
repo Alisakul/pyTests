@@ -15,8 +15,6 @@ def test_buy_product():
     url = 'https://www.mlesna.ru/'
     driver.get(url)
     driver.maximize_window()
-    product = "Чай черный «Maple» (Кленовый) с ароматом сока канадского клена"
-    price = "750"
     delivery = "ЖелДорЭкспедиция"
     name = "Just Test User"
     email = "test@test.ru"

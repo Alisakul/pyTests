@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as conditions
 from selenium.webdriver.common.by import By
 from base.base_class import Base
 from selenium.webdriver.support.select import Select
+import time
 
 
 class BasketPage(Base):
@@ -68,18 +69,22 @@ class BasketPage(Base):
 
     # ACTIONS
     def click_next_button(self):
+        time.sleep(5)
         self.get_next_button().click()
         print("Нажата кнопка Далее")
 
     def set_checkbox_delivery(self):
+        time.sleep(5)
         self.get_delivery_checkbox().click()
         print("Выбрана доставка транспортной компанией")
 
     def select_delivery_company(self, option):
+        time.sleep(5)
         self.get_select_delivery().select_by_visible_text(option)
         print("Выбрана опция: " + option)
 
     def set_checkbox_card_pay(self):
+        time.sleep(5)
         self.get_card_payment().click()
         print("Выбрана оплата банковской картой")
 
